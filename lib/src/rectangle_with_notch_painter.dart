@@ -161,7 +161,7 @@ class RectangleWithNotchPainter extends CustomPainter {
         break;
 
       case Placement.topStart:
-        // Notch ở cạnh trên bên trái
+        const double offset = 8; // Khoảng đệm để lùi mũi tên sang phải
         path
           ..moveTo(0, radius)
           ..lineTo(0, size.height - radius)
@@ -170,14 +170,16 @@ class RectangleWithNotchPainter extends CustomPainter {
           ..quadraticBezierTo(size.width, size.height, size.width, size.height - radius)
           ..lineTo(size.width, radius)
           ..quadraticBezierTo(size.width, 0, size.width - radius, 0)
-          ..lineTo(triangleWidth * 2, 0)
-          ..lineTo(triangleWidth, -triangleHeight)
-          ..lineTo(0, 0)
+          ..lineTo(triangleWidth + radius + offset, 0) // Lùi mũi tên sang phải
+          ..lineTo(offset + radius, -triangleHeight) // Lùi mũi tên sang phải
+          ..lineTo(offset, 0) // Lùi mũi tên sang phải
+          ..lineTo(radius, 0)
           ..quadraticBezierTo(0, 0, 0, radius);
+
         break;
 
       case Placement.topEnd:
-        // Notch ở cạnh trên bên phải
+        const double offset = 10; // Khoảng đệm để lùi mũi tên sang trái
         path
           ..moveTo(0, radius)
           ..lineTo(0, size.height - radius)
@@ -186,29 +188,96 @@ class RectangleWithNotchPainter extends CustomPainter {
           ..quadraticBezierTo(size.width, size.height, size.width, size.height - radius)
           ..lineTo(size.width, radius)
           ..quadraticBezierTo(size.width, 0, size.width - radius, 0)
-          ..lineTo(size.width - triangleWidth, 0)
-          ..lineTo(size.width - triangleWidth * 2, -triangleHeight)
-          ..lineTo(size.width, 0)
+          ..lineTo(size.width - radius - offset, 0) // Lùi mũi tên sang trái
+          ..lineTo(size.width - offset, -triangleHeight) // Lùi mũi tên sang trái
+          ..lineTo(size.width - offset - triangleWidth, 0) // Lùi mũi tên sang trái
           ..lineTo(radius, 0)
           ..quadraticBezierTo(0, 0, 0, radius);
         break;
 
-      default:
-        // default bottom
+      case Placement.leftStart:
+        const double offset = 10; // Khoảng cách di chuyển mũi tên xuống dưới
+        path
+          ..moveTo(radius, 0) // Góc bo phía trên bên trái
+          ..lineTo(size.width - radius, 0)
+          ..quadraticBezierTo(size.width, 0, size.width, radius) // Góc bo phía trên bên phải
+          ..lineTo(size.width, size.height - radius)
+          ..quadraticBezierTo(size.width, size.height, size.width - radius,
+              size.height) // Góc bo phía dưới bên phải
+          ..lineTo(radius, size.height)
+          ..quadraticBezierTo(0, size.height, 0, size.height - radius) // Góc bo phía dưới bên trái
+          ..lineTo(0, radius + 10 + offset) // Di chuyển đến vị trí của mũi tên (tăng y thêm offset)
+          ..lineTo(-triangleHeight, radius + offset) // Đỉnh mũi tên (tăng y thêm offset)
+          ..lineTo(0, radius - 10 + offset) // Kết thúc mũi tên (tăng y thêm offset)
+          ..lineTo(0, radius) // Trở về góc bo trên bên trái
+          ..quadraticBezierTo(0, 0, radius, 0); // Góc bo
+        break;
+
+      case Placement.leftEnd:
+        const double offset = 10; // Khoảng cách mũi tên di chuyển lên
+        path
+          ..moveTo(radius, 0)
+          ..lineTo(size.width - radius, 0)
+          ..quadraticBezierTo(size.width, 0, size.width, radius)
+          ..lineTo(size.width, size.height - radius)
+          ..quadraticBezierTo(size.width, size.height, size.width - radius, size.height)
+          ..lineTo(radius, size.height)
+          ..quadraticBezierTo(0, size.height, 0, size.height - radius)
+          ..lineTo(
+              0, size.height - radius - triangleWidth - offset) // Di chuyển đến vị trí của mũi tên
+          ..lineTo(-triangleHeight, size.height - radius - offset) // Đỉnh mũi tên
+          ..lineTo(0, size.height - radius + triangleWidth - offset) // Kết thúc mũi tên
+          ..lineTo(0, radius) // Trở về góc bo trên bên trái
+          ..quadraticBezierTo(0, 0, radius, 0); // Góc bo
+        break;
+
+      case Placement.rightStart:
+        const double offset = 10; // Khoảng cách di chuyển mũi tên xuống dưới
+        path
+          ..moveTo(radius, 0)
+          ..lineTo(size.width - radius, 0)
+          ..quadraticBezierTo(size.width, 0, size.width, radius)
+          ..lineTo(size.width, offset + 10 - triangleWidth) // Di chuyển xuống thêm 10
+          ..lineTo(size.width + triangleHeight, offset + 10) // Đỉnh mũi tên di chuyển xuống thêm 10
+          ..lineTo(
+              size.width, offset + 10 + triangleWidth) // Kết thúc mũi tên di chuyển xuống thêm 10
+          ..lineTo(size.width, size.height - radius)
+          ..quadraticBezierTo(size.width, size.height, size.width - radius, size.height)
+          ..lineTo(radius, size.height)
+          ..quadraticBezierTo(0, size.height, 0, size.height - radius)
+          ..lineTo(0, radius)
+          ..quadraticBezierTo(0, 0, radius, 0);
+        break;
+
+      case Placement.rightEnd:
+        const double offset = 10; // Khoảng cách di chuyển mũi tên lên trên
+        path
+          ..moveTo(radius, 0)
+          ..lineTo(size.width - radius, 0)
+          ..quadraticBezierTo(size.width, 0, size.width, radius)
+          ..lineTo(size.width, size.height - offset - 10 - triangleWidth) // Di chuyển lên thêm 10
+          ..lineTo(size.width + triangleHeight,
+              size.height - offset - 10) // Đỉnh mũi tên di chuyển lên thêm 10
+          ..lineTo(size.width,
+              size.height - offset - 10 + triangleWidth) // Kết thúc mũi tên di chuyển lên thêm 10
+          ..lineTo(size.width, size.height - radius)
+          ..quadraticBezierTo(size.width, size.height, size.width - radius, size.height)
+          ..lineTo(radius, size.height)
+          ..quadraticBezierTo(0, size.height, 0, size.height - radius)
+          ..lineTo(0, radius)
+          ..quadraticBezierTo(0, 0, radius, 0);
+        break;
+
+      case Placement.bottomStart:
+        const double offset = 10; // Khoảng cách để đẩy mũi tên vào trong
         path
           ..moveTo(leftLineStartPoint.dx, leftLineStartPoint.dy)
           ..lineTo(leftLineEndPoint.dx, leftLineEndPoint.dy)
           ..quadraticBezierTo(bottomLeftControlPoint.dx, bottomLeftControlPoint.dy,
               bottomLineStartPoint.dx, bottomLineStartPoint.dy)
-          ..lineTo(bottomCenterStartPoint.dx, bottomCenterStartPoint.dy)
-          ..quadraticBezierTo(bottomCenterStartControlPoint.dx, bottomCenterStartControlPoint.dy,
-              bottomCenterStartPoint2.dx, bottomCenterStartPoint2.dy)
-          ..lineTo(bottomCenterMiddlePoint.dx, bottomCenterMiddlePoint.dy)
-          ..quadraticBezierTo(bottomCenterMiddleControlPoint.dx, bottomCenterMiddleControlPoint.dy,
-              bottomCenterMiddlePoint2.dx, bottomCenterMiddlePoint2.dy)
-          ..lineTo(bottomCenterEndPoint.dx, bottomCenterEndPoint.dy)
-          ..quadraticBezierTo(bottomCenterEndControlPoint.dx, bottomCenterEndControlPoint.dy,
-              bottomCenterEndPoint2.dx, bottomCenterEndPoint2.dy)
+          ..lineTo(radius + offset, size.height) // Bắt đầu mũi tên
+          ..lineTo(radius + offset + triangleWidth, size.height + triangleHeight) // Đỉnh mũi tên
+          ..lineTo(radius + offset + 2 * triangleWidth, size.height) // Kết thúc mũi tên
           ..lineTo(bottomLineEndPoint.dx, bottomLineEndPoint.dy)
           ..quadraticBezierTo(bottomRightControlPoint.dx, bottomRightControlPoint.dy,
               rightLineStartPoint.dx, rightLineStartPoint.dy)
@@ -218,6 +287,29 @@ class RectangleWithNotchPainter extends CustomPainter {
           ..lineTo(topLineEndPoint.dx, topLineEndPoint.dy)
           ..quadraticBezierTo(topLeftControlPoint.dx, topLeftControlPoint.dy, leftLineStartPoint.dx,
               leftLineStartPoint.dy);
+        break;
+
+      case Placement.bottomEnd:
+        const double offset = 10; // Khoảng cách để đẩy mũi tên vào trong
+        path
+          ..moveTo(leftLineStartPoint.dx, leftLineStartPoint.dy)
+          ..lineTo(leftLineEndPoint.dx, leftLineEndPoint.dy)
+          ..quadraticBezierTo(bottomLeftControlPoint.dx, bottomLeftControlPoint.dy,
+              bottomLineStartPoint.dx, bottomLineStartPoint.dy)
+          ..lineTo(size.width - radius - offset - 2 * triangleWidth, size.height) // Bắt đầu mũi tên
+          ..lineTo(size.width - radius - offset - triangleWidth,
+              size.height + triangleHeight) // Đỉnh mũi tên
+          ..lineTo(size.width - radius - offset, size.height) // Kết thúc mũi tên
+          ..lineTo(bottomLineEndPoint.dx, bottomLineEndPoint.dy)
+          ..quadraticBezierTo(bottomRightControlPoint.dx, bottomRightControlPoint.dy,
+              rightLineStartPoint.dx, rightLineStartPoint.dy)
+          ..lineTo(rightLineEndPoint.dx, rightLineEndPoint.dy)
+          ..quadraticBezierTo(topRightControlPoint.dx, topRightControlPoint.dy,
+              topLineStartPoint.dx, topLineStartPoint.dy)
+          ..lineTo(topLineEndPoint.dx, topLineEndPoint.dy)
+          ..quadraticBezierTo(topLeftControlPoint.dx, topLeftControlPoint.dy, leftLineStartPoint.dx,
+              leftLineStartPoint.dy); // Khoảng đệm để mũi tên cách mép phải
+
         break;
     }
 

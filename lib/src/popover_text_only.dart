@@ -24,8 +24,8 @@ class Popover extends StatefulWidget {
     this.triangleHeight = 8,
     this.triangleRadius = 2,
     this.color = Colors.black,
-    this.height = 50,
-    this.width = 150,
+    this.height = 35,
+    this.width = 100,
   })  : assert(text.trim().isNotEmpty, 'text value must not be empty.'),
         super(key: key);
 
@@ -124,31 +124,32 @@ class _PopoverState extends State<Popover> {
         break;
 
       case Placement.leftStart:
-        top = _triggerPosition.dy;
+        top = _triggerPosition.dy - (widget.height / 2);
         left = _triggerPosition.dx - widget.width - 20;
         right = screenSize.width - _triggerPosition.dx;
-        bottom = screenSize.height - _triggerPosition.dy - _triggerSize.height;
+        bottom = screenSize.height - _triggerPosition.dy - _triggerSize.height - widget.height / 2;
+
         break;
 
       case Placement.leftEnd:
-        top = _triggerPosition.dy + _triggerSize.height - widget.height;
+        top = _triggerPosition.dy - (widget.height / 2);
         left = _triggerPosition.dx - widget.width - 20;
         right = screenSize.width - _triggerPosition.dx;
-        bottom = screenSize.height - _triggerPosition.dy;
+        bottom = screenSize.height - _triggerPosition.dy - _triggerSize.height - widget.height / 2;
         break;
 
       case Placement.rightStart:
-        top = _triggerPosition.dy;
+        top = _triggerPosition.dy - (widget.height / 2);
         right = screenSize.width - (_triggerPosition.dx + _triggerSize.width + widget.width + 20);
         left = _triggerPosition.dx + _triggerSize.width;
-        bottom = screenSize.height - _triggerPosition.dy - _triggerSize.height;
+        bottom = screenSize.height - _triggerPosition.dy - _triggerSize.height - widget.height / 2;
         break;
 
       case Placement.rightEnd:
-        top = _triggerPosition.dy + _triggerSize.height - widget.height;
+        top = _triggerPosition.dy - (widget.height / 2);
         right = screenSize.width - (_triggerPosition.dx + _triggerSize.width + widget.width + 20);
         left = _triggerPosition.dx + _triggerSize.width;
-        bottom = screenSize.height - _triggerPosition.dy;
+        bottom = screenSize.height - _triggerPosition.dy - _triggerSize.height - widget.height / 2;
         break;
 
       case Placement.bottomStart:

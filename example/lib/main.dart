@@ -9,8 +9,8 @@ void main() {
         child: Popover(
           trigger: const Text('Press me'),
 
-          text: '@example_user example_user example_user',
-          placement: Placement.topEnd, // Thay đổi vị trí tại đây
+          text: '@example_user',
+          placement: Placement.bottomEnd, // Thay đổi vị trí tại đây
         ),
       ),
     ),
